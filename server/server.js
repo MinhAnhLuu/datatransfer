@@ -17,35 +17,36 @@ app.post('/:filename', function (req, res) {
     console.log('drain', new Date());
     req.resume();
   });
-  req.on('end', function () {
-    // to do
+  req.on('end', function (req) {
     setTimeout(() => {
-      // File ckt_list.txt
-      var target = 'http://localhost:3001/ckt_list.txt';
-      var rs = fs.createReadStream('ckt_list.txt');
-      var ws = request.post(target);
-      // File arrays
-      var target2 = 'http://localhost:3001/arrays.txt';
-      var rs = fs.createReadStream('arrays.txt');
-      var ws = request.post(target2);
+      const options = {
+        'headers': [{
+          'content-type': 'text/plain; charset=UTF-8',
+          'name-file': 'ckt_list'
+        }]
 
-      ws.on('drain', function () {
-        console.log('drain', new Date());
-        rs.resume();
-      });
-
-      rs.on('end', function () {
-        console.log('uploaded to client success ');
-      });
-
-      ws.on('error', function (err) {
-        console.error('cannot send file to ' + target + ': ' + err);
-      });
-
-      rs.pipe(ws);
-      res.sendStatus(200);
+      }
+      var fileName = 'ckt_list.txt';
+      res.sendFile(__dirname + '/' + fileName, function (err) {
+        if (err) {
+          console.error(err.message);
+        } else {
+          console.log('Sent:', fileName);
+        }
+      })
     },
       3000)
+    // setTimeout(() => {
+    //   var fileName2 = 'arrays.txt';
+    //   res.sendFile(__dirname + '/' + fileName2, function (err) {
+    //     if (err) {
+    //       console.error(err.message);
+    //     } else {
+    //       console.log('Sent:', fileName2);
+    //     }
+    //   })
+    // },
+    //   5000)
   });
 });
 
