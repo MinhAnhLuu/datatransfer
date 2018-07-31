@@ -45,9 +45,9 @@ ws.on('response', (req, res) => {
   req.on('end', function () {
     var outputFilename = './ckt_list.txt';
 
-    fs.writeFile(outputFilename, body, 'utf8');
-
-    console.log("It's saved: " + outputFilename);
+    fs.writeFile(outputFilename, body, 'utf8', () => {
+      console.log("It's saved: " + outputFilename);
+    });
   })
 })
 
