@@ -35,7 +35,7 @@ app.post('/:filename', function (req, res) {
       });
 
       rs.on('end', function () {
-        console.log('uploaded to ' + target);
+        console.log('uploaded to client success ');
       });
 
       ws.on('error', function (err) {

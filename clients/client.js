@@ -27,7 +27,7 @@ ws.on('drain', function () {
 });
 
 rs.on('end', function () {
-  console.log('uploaded to ' + target);
+  console.log('uploaded to server success');
 });
 
 ws.on('error', function (err) {
@@ -42,7 +42,6 @@ app.post('/:filename', function (req, res) {
   var filename = path.basename(req.params.filename);
   filename = path.resolve(__dirname, filename);
   var dst = fs.createWriteStream(filename);
-  console.log('Received from server!');
   req.pipe(dst);
 
   dst.on('drain', function() {
